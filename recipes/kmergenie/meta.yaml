@@ -1,16 +1,16 @@
 {% set name = "kmergenie" %}
-{% set version = "1.7016" %}
-{% set md5 = "7036f9cac24b0dee526b7db710b89f00" %}
+{% set version = "1.7051" %}
+{% set md5 = "4cce0cf67b3e6499c3e6870389a6e560" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 build:
-  number: 4
-  skip: True # [not py27]
+  number: 5
 
 source:
+  fn: {{ name }}-{{ version }}.tar.gz
   url: http://kmergenie.bx.psu.edu/{{ name }}-{{ version }}.tar.gz
   md5: {{ md5 }}
 
@@ -19,17 +19,25 @@ requirements:
     - {{ compiler('c') }}
   host:
     - python
+    - gcc # [linux]
+    - llvm # [osx]
     - zlib
     - r-base
+    - r-essentials
+    - perl
   run:
     - python
+    - libgcc  # [linux]
     - zlib
     - r-base
+    - r-essentials
+
 
 test:
-  commands:
-    - kmergenie --help
-
+    files:
+        - test-data.fq
+    commands:
+        - kmergenie test-data.fq
 about:
   home: http://kmergenie.bx.psu.edu/
   license: 'free software license'
